@@ -5,13 +5,16 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { Title, SubTitle, Container } from './App.styled';
 
+const LS_KEY = 'contacts';
+
 export class App extends Component {
   state = {
-    contacts: [{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' }],
+    contacts: [],
     filter: '',
   };
+    
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
+    const contacts = localStorage.getItem(LS_KEY);
     const parsedContactas = JSON.parse(contacts);
     if (parsedContactas) {
       this.setState({ contacts: parsedContactas });
@@ -20,7 +23,7 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     }
   }
 
