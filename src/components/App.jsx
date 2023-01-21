@@ -7,14 +7,22 @@ import { Title, SubTitle, Container } from './App.styled';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' }],
     filter: '',
   };
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContactas = JSON.parse(contacts);
+    if (parsedContactas) {
+      this.setState({ contacts: parsedContactas });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   formSubmit = ({ name, number }) => {
     const contact = {
@@ -66,4 +74,3 @@ export class App extends Component {
     );
   }
 }
-
